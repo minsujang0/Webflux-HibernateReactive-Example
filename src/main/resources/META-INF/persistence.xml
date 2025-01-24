@@ -5,8 +5,10 @@
     <persistence-unit name="pu">
         <provider>org.hibernate.reactive.provider.ReactivePersistenceProvider</provider>
         <class>com.minsujang0.r2dbc_demo.Sample</class>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
 
         <properties>
+            <property name="hibernate.archive.autodetection" value="class, hbm"/>
 
             <!-- PostgreSQL -->
             <property name="jakarta.persistence.jdbc.url"
