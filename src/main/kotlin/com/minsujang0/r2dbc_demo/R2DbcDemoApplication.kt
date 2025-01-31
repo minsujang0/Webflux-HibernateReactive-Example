@@ -6,7 +6,6 @@ import org.springframework.boot.runApplication
 import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories
 
 @SpringBootApplication
-@EnableR2dbcRepositories(basePackages = ["com.minsujang0"])
 @RebernateEntityScan("com.minsujang0")
 class R2DbcDemoApplication
 

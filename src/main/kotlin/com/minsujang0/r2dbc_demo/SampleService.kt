@@ -5,6 +5,7 @@ import io.smallrye.mutiny.coroutines.awaitSuspending
 import jakarta.transaction.Transactional
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.reactor.awaitSingle
 import org.hibernate.reactive.mutiny.Mutiny.SessionFactory
 import org.springframework.stereotype.Service
 import java.util.function.Function
@@ -15,8 +16,14 @@ class SampleService(
     private val sessionFactory: SessionFactory,
 ) {
     @Transactional
-    suspend fun createSample(name: String): Sample {
-        return sampleRepository.save(Sample(name = name))
+    suspend fun createSample(name: String): Sample = coroutineScope {
+        sessionFactory.withTransaction(Function {
+            async {
+                val sample = sampleRepository.save(Sample(name = name))
+                sample.name = "Created, ${sample.name}"
+                sample
+            }.asUni()
+        }).awaitSuspending()
     }
 
     suspend fun getSample(id: Long): Sample = coroutineScope {
