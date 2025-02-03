@@ -40,6 +40,7 @@ dependencies {
     runtimeOnly("org.postgresql:postgresql")
     runtimeOnly("org.postgresql:r2dbc-postgresql")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    implementation("com.ongres.scram:client:2.1") // Vertx Sql Client 초기화시 사용
 
     implementation("org.hibernate.reactive:hibernate-reactive-core:2.4.3.Final")
     implementation("io.vertx:vertx-pg-client:4.5.11")
