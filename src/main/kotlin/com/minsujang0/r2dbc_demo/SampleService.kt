@@ -15,24 +15,15 @@ class SampleService(
     private val sampleRepository: SampleRepository, private val sampleDslRepository: SampleDslRepository,
     private val sessionFactory: SessionFactory,
 ) {
-    @Transactional
-    suspend fun createSample(name: String): Sample = coroutineScope {
-        sessionFactory.withTransaction(Function {
-            async {
-                val sample = sampleRepository.save(Sample(name = name))
-                sample.name = "Created, ${sample.name}"
-                sample
-            }.asUni()
-        }).awaitSuspending()
+    suspend fun createSample(name: String): Sample = tx(sessionFactory) {
+        val sample = sampleRepository.save(Sample(name = name))
+        sample.name = "Created, ${sample.name}"
+        sample
     }
 
-    suspend fun getSample(id: Long): Sample = coroutineScope {
-        sessionFactory.withTransaction(Function {
-            async {
-                val sample = sampleDslRepository.getSampleById(id)
-                sample.name = "Hello, ${sample.name}"
-                sample
-            }.asUni()
-        }).awaitSuspending()
+    suspend fun getSample(id: Long): Sample = tx(sessionFactory) {
+        val sample = sampleRepository.findById(id)!!
+        sample.name = "Hello, ${sample.name}"
+        sample
     }
 }
