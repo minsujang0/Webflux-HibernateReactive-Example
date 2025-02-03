@@ -25,7 +25,6 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
@@ -37,18 +36,20 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
-    runtimeOnly("org.postgresql:postgresql")
-    runtimeOnly("org.postgresql:r2dbc-postgresql")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     implementation("com.ongres.scram:client:2.1") // Vertx Sql Client 초기화시 사용
 
     implementation("org.hibernate.reactive:hibernate-reactive-core:2.4.3.Final")
     implementation("io.vertx:vertx-pg-client:4.5.11")
     implementation("io.smallrye.reactive:mutiny-kotlin:2.0.0")
+    implementation("io.vertx:vertx-jdbc-client:4.5.11")
 
     implementation("com.linecorp.kotlin-jdsl:jpql-dsl:3.5.4")
     implementation("com.linecorp.kotlin-jdsl:jpql-render:3.5.4")
     implementation("com.linecorp.kotlin-jdsl:hibernate-reactive-support:3.5.4")
+
+    implementation("com.zaxxer:HikariCP:6.2.1")
+    runtimeOnly("com.h2database:h2")
 }
 
 kotlin {
